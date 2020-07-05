@@ -4,6 +4,8 @@ module ViewComponentReflex
       def init_stimulus_reflex
         klass = self
         @stimulus_reflex ||= Object.const_set(name + "Reflex", Class.new(StimulusReflex::Reflex) {
+          before_reflex -> { Apartment::Tenant.switch!(request.subdomains.first) }
+          
           def refresh!(*selectors)
             save_state
 
